@@ -5,10 +5,17 @@ from sqlalchemy.orm import selectinload
 import os
 import aiofiles
 from uuid import uuid4
+from create_db import create_all_tables
 
 
 app = FastAPI()
 get_db = database.get_db
+
+
+@app.on_event("startup")
+async def on_startup():
+    await create_all_tables()
+
 
 from fastapi.middleware.cors import CORSMiddleware
 
